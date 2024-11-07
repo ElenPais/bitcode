@@ -26,21 +26,17 @@ def train_model_function(source, df_to_model):
     X = df_to_model_source[['Open', 'Volume', 'Date_Unix']]
     y = df_to_model_source[['Adj Close']]
 
-
-   
         
     X_to_train = X[['Date_Unix', 'Open', 'Volume']]
 
     
-    # Dividindo os dados em treinamento e teste
     X_train, X_test, y_train, y_test = train_test_split(X_to_train, y, train_size=0.3)
 
-    # Treinando o modelo Random Forest
+    
     rf_regressor = RandomForestRegressor()
     rf_regressor.fit(X_train, y_train)
 
-
-    # Suponha que seu modelo esteja treinado e armazenado na variável 'modelo'
+    
     joblib.dump(rf_regressor, f'{source}_modelo_ml.pkl')  # Salva o modelo em um arquivo .pkl
 
 train_model_function(source="bitcoin", df_to_model=pd.read_csv("df_to_model.csv"))
