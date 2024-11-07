@@ -108,14 +108,10 @@ fig_vol.update_layout(title='Volumetria por Mês',
 fig_vol.update_layout(colorway=['#D3D6FF', '#A7ACFF', '#7B83FF', '#4F59FF'])
 
 
-
-# Carrega o modelo
 modelo_bitcoin = joblib.load('bitcoin_modelo_ml.pkl')
 
-# Carrega o modelo
 modelo_apple = joblib.load('apple_modelo_ml.pkl')
 
-# Carrega o modelo
 modelo_amazon = joblib.load('amazon_modelo_ml.pkl')
 
 
@@ -137,12 +133,6 @@ X_apple = df_to_predict[df_to_predict["Source"]=="apple"][['Date_Unix', 'Open', 
 X_amazon = df_to_predict[df_to_predict["Source"]=="amazon"][['Date_Unix', 'Open', 'Volume']]
 
 
-### Rodar o Modelo e Criar os Gráficos
-
-
-
-
-# Agora você pode usar 'modelo_carregado' para fazer previsões
 previsoes_bitcoin = modelo_bitcoin.predict(X_bitcoin)
 X_bitcoin["Predict"]=previsoes_bitcoin
 
@@ -152,9 +142,6 @@ X_apple["Predict"]=previsoes_apple
 previsoes_amazon = modelo_amazon.predict(X_amazon)
 X_amazon["Predict"]=previsoes_amazon
 
-
-
-# Transformando Coluna Date_Unix em Date
 
 X_bitcoin['Date']=X_bitcoin["Date_Unix"].apply(lambda x:datetime.utcfromtimestamp(x).strftime('%Y-%m-%d'))
 
@@ -171,7 +158,7 @@ X_amazon['Tipo']="amazon"
 X_Consolidated = pd.concat([X_bitcoin, X_apple, X_amazon])
 
 
-#criar um gráfico comparando a entrada com a saída
+#Criar um gráfico comparando a entrada com a saída
 #plot
 
 fig_bitcoin = go.Figure()
@@ -234,12 +221,12 @@ app.layout = [
     dcc.Graph(id='graph-predict')
 ]
 
-# um input e um output
 
 #@callback(
 #   Output('graph-vol', 'figure'),
 #    Input('dropdown-selection', 'value')
 #)
+
 
 @callback(
     [Output('graph-vol', 'figure'),
